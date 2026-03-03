@@ -33,16 +33,20 @@ def infix_to_postfix(tokens: list[str]) -> list[str]:
     return output
             
 
-#def evaluate_postfix(tokens: list[str]) -> float:
-
-a = "3 + 4 * 2 / ( 1 - 5 )"
-b = []
-c = infix_to_postfix(tokenize(a))
-b.insert(4, 'a')
-b.append('b')
-b.insert(0, 'c')
-#print(b)
-tokens = tokenize(a)
-#print(type(tokens[0]))
-#print(tokens[0])
-print(c)
+def evaluate_postfix(tokens: list[str]) -> float:
+    stack = []
+    for token in tokens:
+        if token not in ['+', '-', '*', '/']:
+            stack.append(float(token))
+        else:
+            deuxieme_terme = stack.pop()
+            premier_terme = stack.pop()
+            if token == '+':
+                stack.append(premier_terme + deuxieme_terme)
+            elif token == '-':
+                stack.append(premier_terme - deuxieme_terme)
+            elif token == '*':
+                stack.append(premier_terme * deuxieme_terme)
+            elif token == '/':
+                stack.append(premier_terme / deuxieme_terme)
+    return stack[0]
