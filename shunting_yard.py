@@ -1,12 +1,9 @@
 def tokenize(expression: str) -> list[str]:
-    for conversion in expression:
-        if conversion == ',':
-            expression = expression.replace(conversion, '.')
-        elif conversion == ' ':
-            expression = expression.replace(conversion, '')
-    for liste in ['+', '-', '*', '/', '(', ')']:
-        expression = expression.replace(liste, f' {liste} ')
-    return expression.split()
+    conversion = list(expression)
+    for i in conversion:
+        if i == ' ':
+            conversion.remove(i)
+    return conversion
 
 def infix_to_postfix(tokens: list[str]) -> list[str]:
     precedence = {'+': 2, '-': 2, '*': 3, '/': 3, '(': 0, ')': 0}
@@ -40,7 +37,6 @@ def evaluate_postfix(tokens: list[str]) -> float:
     stack = []
     for token in tokens:
         if token not in ['+', '-', '*', '/']:
-            print(token)
             stack.append(float(token))
         else:
             deuxieme_terme = stack.pop()
@@ -54,5 +50,3 @@ def evaluate_postfix(tokens: list[str]) -> float:
             elif token == '/':
                 stack.append(premier_terme / deuxieme_terme)
     return stack[0]
-if __name__ == "__main__":
-    print(evaluate_postfix(infix_to_postfix(tokenize("3.14.15"))))
